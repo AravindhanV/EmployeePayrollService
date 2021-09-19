@@ -28,5 +28,12 @@ public class NIOFileAPITest {
         if(Files.exists(playPath))
         	FileUtils.deleteFiles(playPath.toFile());
         Assert.assertTrue(Files.notExists(playPath));
+
+        try {
+			Files.createDirectories(playPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        Assert.assertTrue(Files.exists(playPath));
     }
 }
