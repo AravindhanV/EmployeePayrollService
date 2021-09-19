@@ -52,4 +52,11 @@ public class NIOFileAPITest {
         									path.toString().startsWith("temp"))
         									.forEach(System.out:: println);
     }
+    
+    @Test
+    public void givenAsDirectoryWhenWatchedListsAllTheActivities() throws IOException {
+    	Path dir = Paths.get(HOME+"/"+PLAY_WITH_NIO);
+    	Files.list(dir).filter(Files::isRegularFile).forEach(System.out::println);
+    	new Java8WatchServiceExample(dir).processEvents();
+    }
 }
