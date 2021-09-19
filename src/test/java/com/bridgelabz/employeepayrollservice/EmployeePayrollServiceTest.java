@@ -20,6 +20,7 @@ public class EmployeePayrollServiceTest {
 		employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmps));
 		employeePayrollService.writeEmployeePayrollData(FILE_IO);
 		employeePayrollService.printData(FILE_IO);
+		//Count Rows of data
 		long entries = employeePayrollService.countEntries(FILE_IO);
 		Assert.assertEquals(3, entries);
 	}
