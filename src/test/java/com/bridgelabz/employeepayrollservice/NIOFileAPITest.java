@@ -35,5 +35,15 @@ public class NIOFileAPITest {
 			e.printStackTrace();
 		}
         Assert.assertTrue(Files.exists(playPath));
+
+        IntStream.range(1, 10).forEach(counter -> {
+        	Path tempFile=Paths.get(playPath + "/temp"+counter);
+        	Assert.assertTrue(Files.notExists(tempFile));
+        	try {
+        		Files.createFile(tempFile);
+        	}catch(IOException e) {
+        		Assert.assertTrue(Files.exists(tempFile));
+        	}
+        });
     }
 }
