@@ -3,6 +3,7 @@
  */
 package com.bridgelabz.employeepayrollservice;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,10 @@ public class EmployeePayrollService {
 	
 	public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
 		this.employeePayrollList = employeePayrollList;
+	}
+	
+	public List<EmployeePayrollData> readEmployeePayrollDBData(IOService ioService) throws SQLException{
+	return new ArrayList<EmployeePayrollData>();
 	}
 	
 	public static void main(String args[]) {
