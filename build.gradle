@@ -23,6 +23,8 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:28.0-jre'
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    runtime "mysql:mysql-connector-java:8.0.15"
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
