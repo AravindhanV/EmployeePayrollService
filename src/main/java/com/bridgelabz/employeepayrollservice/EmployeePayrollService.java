@@ -22,7 +22,9 @@ public class EmployeePayrollService {
 	}
 	
 	public List<EmployeePayrollData> readEmployeePayrollDBData(IOService ioService) throws SQLException{
-	return new ArrayList<EmployeePayrollData>();
+		if(ioService.equals(IOService.DB_IO))
+			this.employeePayrollList = new EmployeePayrollDBService().readData();
+		return this.employeePayrollList;
 	}
 	
 	public static void main(String args[]) {
