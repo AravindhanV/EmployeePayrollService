@@ -42,4 +42,13 @@ public class EmployeePayrollDBService {
 		return employeePayrollList;
 	}
 
+	public int updateEmployeeData(int id, double salary) {
+		return this.updateEmployeeDataUsingStatement(id,salary);
+	}
+	
+	private int updateEmployeeDataUsingStatement(int id, double salary) {
+		String sql = String.format("update payroll set salary=%.2f where emp_id=%d", salary, id);
+		return 0;
+	}
+
 }

@@ -65,4 +65,12 @@ public class EmployeePayrollService {
 		}
 		return 0;
 	}
+
+	public void updateEmployeeSalary(int id, double salary) {
+		int result = new EmployeePayrollDBService().updateEmployeeData(id,salary);
+	}
+
+	public boolean checkEmployeePayrollInSyncWithDB(int id) {
+		return false;
+	}
 }
