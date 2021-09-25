@@ -26,8 +26,7 @@ public class EmployeePayrollDBService {
 				+ " from employee e, payroll p"
 				+ " where e.id=p.emp_id";
 		List<EmployeePayrollData> employeePayrollList= new ArrayList<>();
-		try {
-			Connection connection =this.getConnection();
+		try (Connection connection = this.getConnection()){
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
 			while(result.next()) {
