@@ -8,9 +8,9 @@ import java.util.Enumeration;
 public class DBDemo {
 	public static void main(String[] args) {
 		String jdbcURL="jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
-		String userName="root";
-		String password="tooor";
-		Connection con;
+		String userName="user1";
+		String password="pass";
+		Connection connection;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			System.out.println("Driver loaded!");
@@ -18,6 +18,13 @@ public class DBDemo {
 			throw new IllegalStateException("",e);
 		}
 		listDrivers();
+		try {
+			System.out.println("Connecting DB: "+jdbcURL);
+			connection = DriverManager.getConnection(jdbcURL,userName,password);
+			System.out.println("Connection Successful");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static void listDrivers() {
