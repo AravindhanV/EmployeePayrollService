@@ -2,6 +2,7 @@ package com.bridgelabz.employeepayrollservice;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,6 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeePayrollDBService {
+
+	private PreparedStatement employeePayrollDataStatement;
+	private static EmployeePayrollDBService employeePayrollDBService;
+	private EmployeePayrollDBService() {}
+	
+	private static EmployeePayrollDBService getInstance() {
+		if(employeePayrollDBService==null) {
+			employeePayrollDBService = new EmployeePayrollDBService();
+		}
+		return employeePayrollDBService;
+	}
 
 	private Connection getConnection() throws SQLException {
 		String jdbcURL="jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
@@ -57,6 +69,12 @@ public class EmployeePayrollDBService {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	public List<EmployeePayrollData> getEmployeePayrollData(int id) {
+		List<EmployeePayrollData> employeePayrollList = null;
+		if(this.employeePayrollDataStatement == null)
+			this.prepareStatementForEmployeeData();
 	}
 
 }
