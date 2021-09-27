@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,8 @@ public class EmployeePayrollDBService {
 				int id=result.getInt("emp_id");
 				String name = result.getString("name");
 				Double salary=result.getDouble("basic_pay");
-				employeePayrollList.add(new EmployeePayrollData(id, name, salary));
+				LocalDate startDate = result.getDate("start_date").toLocalDate();
+				employeePayrollList.add(new EmployeePayrollData(id, name, salary,startDate));
 			}
 
 		}catch(SQLException e) {
