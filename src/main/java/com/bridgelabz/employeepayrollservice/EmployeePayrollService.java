@@ -12,18 +12,20 @@ import java.util.Scanner;
 public class EmployeePayrollService {
 	public enum IOService {CONSOLE_IO,FILE_IO, DB_IO, REST_IO};
 	private List<EmployeePayrollData> employeePayrollList;
+	private EmployeePayrollDBService employeePayrollDBService;
 	
 	public EmployeePayrollService() {
-		
+		employeePayrollDBService = EmployeePayrollDBService.getInstance();
 	}
 	
 	public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
+		this();
 		this.employeePayrollList = employeePayrollList;
 	}
 	
 	public List<EmployeePayrollData> readEmployeePayrollDBData(IOService ioService) throws SQLException{
 		if(ioService.equals(IOService.DB_IO))
-			this.employeePayrollList = new EmployeePayrollDBService().readData();
+			this.employeePayrollList = employeePayrollDBService.readData();
 		return this.employeePayrollList;
 	}
 	
@@ -67,10 +69,21 @@ public class EmployeePayrollService {
 	}
 
 	public void updateEmployeeSalary(int id, double salary) {
-		int result = new EmployeePayrollDBService().updateEmployeeData(id,salary);
+		int result = employeePayrollDBService.updateEmployeeData(id,salary);
+		if(result==0) {
+			return;
+		}
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(id);
+		if(employeePayrollData != null) employeePayrollData.setSalary(salary);
 	}
+	
+	public EmployeePayrollData getEmployeePayrollData(int id) {
+		return this.employeePayrollList.stream().filter(employeePayrollDataItem -> employeePayrollDataItem.getId() == id).findFirst().orElse(null);
+	}
+	
+	
 
 	public boolean checkEmployeePayrollInSyncWithDB(int id) {
-		return false;
+		List<EmployeePayrollData> employeePayrollList = employeePayrollDBService.getEmployeePayrollData(id);
 	}
 }
