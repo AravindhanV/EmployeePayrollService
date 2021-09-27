@@ -50,6 +50,12 @@ public class EmployeePayrollDBService {
 	
 	private int updateEmployeeDataUsingStatement(int id, double salary) {
 		String sql = String.format("update payroll set salary=%.2f where emp_id=%d", salary, id);
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			return statement.executeUpdate(sql);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
