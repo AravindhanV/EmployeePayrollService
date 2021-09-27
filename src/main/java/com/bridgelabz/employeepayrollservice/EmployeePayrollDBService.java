@@ -16,7 +16,7 @@ public class EmployeePayrollDBService {
 	private static EmployeePayrollDBService employeePayrollDBService;
 	private EmployeePayrollDBService() {}
 	
-	private static EmployeePayrollDBService getInstance() {
+	public static EmployeePayrollDBService getInstance() {
 		if(employeePayrollDBService==null) {
 			employeePayrollDBService = new EmployeePayrollDBService();
 		}
@@ -42,13 +42,7 @@ public class EmployeePayrollDBService {
 		try (Connection connection = this.getConnection()){
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery(sql);
-			while(result.next()) {
-				int id=result.getInt("emp_id");
-				String name = result.getString("name");
-				Double salary=result.getDouble("basic_pay");
-				LocalDate startDate = result.getDate("start_date").toLocalDate();
-				employeePayrollList.add(new EmployeePayrollData(id, name, salary,startDate));
-			}
+			employeePayrollList = this.getEmployeePayrollData(result);
 
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -75,6 +69,37 @@ public class EmployeePayrollDBService {
 		List<EmployeePayrollData> employeePayrollList = null;
 		if(this.employeePayrollDataStatement == null)
 			this.prepareStatementForEmployeeData();
+		try {
+			employeePayrollDataStatement.setInt(1, id);
+			ResultSet  resultSet = employeePayrollDataStatement.executeQuery();
+			employeePayrollList = this.getEmployeePayrollData(resultSet);
+		}
+	}
+
+	private List<EmployeePayrollData> getEmployeePayrollData(ResultSet result) {
+		List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
+		try {
+			while(result.next()) {
+				int id = result.getInt("id");
+				String name = result.getString("name");
+				double salary = result.getDouble("salary");
+				LocalDate startDate = result.getDate("start").toLocalDate();
+				employeePayrollList.add(new EmployeePayrollData(id,name,salary, startDate));
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollList;
+	}
+
+	private void prepareStatementForEmployeeData() {
+		try {
+			Connection connection = this.getConnection();
+			String sql = "select * from payroll where emp_id=?";
+			employeePayrollDataStatement = connection.prepareStatement(sql);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
