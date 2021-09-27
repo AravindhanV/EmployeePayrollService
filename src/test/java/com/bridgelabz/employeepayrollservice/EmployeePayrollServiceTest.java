@@ -45,4 +45,13 @@ public class EmployeePayrollServiceTest {
 		Assert.assertTrue(result);
 	}
 	
+	@Test 
+	public void givenDateRangeForEmployee_WhenRetrieved_shouldMatchGivenCount() throws SQLException {
+		EmployeePayrollService employeePayrollService= new EmployeePayrollService();
+		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollDBData(IOService.DB_IO);
+		String date="20218-01-01";
+		List<EmployeePayrollData> lisdtOfEmployeesInDateRange=employeePayrollService.getEmployeesInGivenStartDateRange(date);
+		Assert.assertEquals(3, lisdtOfEmployeesInDateRange.size());
+	}
+	
 }
