@@ -35,9 +35,7 @@ public class EmployeePayrollDBService {
 	}
 
 	public List<EmployeePayrollData> readData() throws SQLException{
-		String sql = "select p.emp_id, e.name, p.basic_pay "
-				+ " from employee e, payroll p"
-				+ " where e.id=p.emp_id";
+		String sql = "select * from employee";
 		List<EmployeePayrollData> employeePayrollList= new ArrayList<>();
 		try (Connection connection = this.getConnection()){
 			Statement statement = connection.createStatement();
@@ -50,12 +48,12 @@ public class EmployeePayrollDBService {
 		return employeePayrollList;
 	}
 
-	public int updateEmployeeData(int id, double salary) {
-		return this.updateEmployeeDataUsingStatement(id,salary);
+	public int updateEmployeeData(int id, String name) {
+		return this.updateEmployeeDataUsingStatement(id,name);
 	}
 	
-	private int updateEmployeeDataUsingStatement(int id, double salary) {
-		String sql = String.format("update payroll set salary=%.2f where emp_id=%d", salary, id);
+	private int updateEmployeeDataUsingStatement(int id, String name) {
+		String sql = String.format("update employee set name='%s' where id=%d", name, id);
 		try(Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			return statement.executeUpdate(sql);
@@ -73,7 +71,10 @@ public class EmployeePayrollDBService {
 			employeePayrollDataStatement.setInt(1, id);
 			ResultSet  resultSet = employeePayrollDataStatement.executeQuery();
 			employeePayrollList = this.getEmployeePayrollData(resultSet);
+		} catch(SQLException e) {
+			e.printStackTrace();
 		}
+		return employeePayrollList;
 	}
 
 	private List<EmployeePayrollData> getEmployeePayrollData(ResultSet result) {
@@ -82,9 +83,8 @@ public class EmployeePayrollDBService {
 			while(result.next()) {
 				int id = result.getInt("id");
 				String name = result.getString("name");
-				double salary = result.getDouble("salary");
-				LocalDate startDate = result.getDate("start").toLocalDate();
-				employeePayrollList.add(new EmployeePayrollData(id,name,salary, startDate));
+				LocalDate startDate = result.getDate("start_date").toLocalDate();
+				employeePayrollList.add(new EmployeePayrollData(id,name, startDate));
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -95,7 +95,7 @@ public class EmployeePayrollDBService {
 	private void prepareStatementForEmployeeData() {
 		try {
 			Connection connection = this.getConnection();
-			String sql = "select * from payroll where emp_id=?";
+			String sql = "select * from employee where id=?";
 			employeePayrollDataStatement = connection.prepareStatement(sql);
 		} catch(SQLException e) {
 			e.printStackTrace();

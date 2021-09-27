@@ -5,19 +5,16 @@ import java.time.LocalDate;
 public class EmployeePayrollData {
 	private int id;
 	private String name;
-	private double salary;
 	private LocalDate date;
 	
-	public EmployeePayrollData(int id, String name, double salary) {
+	public EmployeePayrollData(int id, String name) {
 		this.id = id;
 		this.name = name;
-		this.salary = salary;
 	}
 	
-	public EmployeePayrollData(int id, String name, double salary, LocalDate startDate) {
+	public EmployeePayrollData(int id, String name, LocalDate startDate) {
 		this.id = id;
 		this.name = name;
-		this.salary = salary;
 		this.date = startDate;
 	}
 	
@@ -30,7 +27,7 @@ public class EmployeePayrollData {
 	}
 	
 	public String toString() {
-		return "id="+id+", name="+name+", salary="+salary;
+		return "id="+id+", name="+name;
 	}
 
 	public int getId() {
@@ -48,12 +45,13 @@ public class EmployeePayrollData {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public double getSalary() {
-		return salary;
-	}
-
-	public void setSalary(double salary) {
-		this.salary = salary;
+	
+	@Override
+	public boolean equals(Object o) {
+		if(this==o) return true;
+		if(o==null||getClass() !=o.getClass()) return false;
+		EmployeePayrollData that = (EmployeePayrollData) o;
+		return id==that.id &&
+				name.equals(that.name);
 	}
 }

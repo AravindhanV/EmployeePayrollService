@@ -15,16 +15,16 @@ public class EmployeePayrollServiceTest {
 	@Test
 	public void given3EmployeesWhenWrittenToFileShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmps = {
-				new EmployeePayrollData(1, "Jeff Bezos", 10000),
-				new EmployeePayrollData(2, "Bill Gates", 20000),
-				new EmployeePayrollData(3, "Mark Zuckerberg", 30000)
+				new EmployeePayrollData(1, "Jeff Bezos"),
+				new EmployeePayrollData(2, "Bill Gates"),
+				new EmployeePayrollData(3, "Mark Zuckerberg")
 		};
 		
 		EmployeePayrollService employeePayrollService;
 		employeePayrollService = new EmployeePayrollService(Arrays.asList(arrayOfEmps));
 		employeePayrollService.writeEmployeePayrollData(FILE_IO);
 		employeePayrollService.printData(FILE_IO);
-		//Count Rows of data
+
 		long entries = employeePayrollService.countEntries(FILE_IO);
 		Assert.assertEquals(3, entries);
 	}
@@ -40,7 +40,7 @@ public class EmployeePayrollServiceTest {
 	public void givenNewSalaryForEmployee_WhenUpdated_ShouldMatch() throws SQLException {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollDBData(IOService.DB_IO);
-		employeePayrollService.updateEmployeeSalary(1,20000);
+		employeePayrollService.updateEmployeeName(1,"newName");
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB(1);
 		Assert.assertTrue(result);
 	}

@@ -42,9 +42,7 @@ public class EmployeePayrollService {
 		int id = consoleInputReader.nextInt();
 		System.out.println("Enter Employee Name: ");
 		String name = consoleInputReader.next();
-		System.out.println("Enter employee salary: ");
-		double salary = consoleInputReader.nextDouble();
-		employeePayrollList.add(new EmployeePayrollData(id, name, salary));
+		employeePayrollList.add(new EmployeePayrollData(id, name));
 	}
 	
 	public void writeEmployeePayrollData(IOService ioService) {
@@ -68,13 +66,13 @@ public class EmployeePayrollService {
 		return 0;
 	}
 
-	public void updateEmployeeSalary(int id, double salary) {
-		int result = employeePayrollDBService.updateEmployeeData(id,salary);
+	public void updateEmployeeName(int id, String name) {
+		int result = employeePayrollDBService.updateEmployeeData(id,name);
 		if(result==0) {
 			return;
 		}
 		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(id);
-		if(employeePayrollData != null) employeePayrollData.setSalary(salary);
+		if(employeePayrollData != null) employeePayrollData.setName(name);
 	}
 	
 	public EmployeePayrollData getEmployeePayrollData(int id) {
@@ -85,5 +83,6 @@ public class EmployeePayrollService {
 
 	public boolean checkEmployeePayrollInSyncWithDB(int id) {
 		List<EmployeePayrollData> employeePayrollList = employeePayrollDBService.getEmployeePayrollData(id);
+		return this.employeePayrollList.get(0).equals(getEmployeePayrollData(id));
 	}
 }
