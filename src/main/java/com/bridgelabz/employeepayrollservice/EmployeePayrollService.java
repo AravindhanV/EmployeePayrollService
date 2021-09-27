@@ -90,4 +90,9 @@ public class EmployeePayrollService {
 		List<EmployeePayrollData> employeesInGivenRange=employeePayrollDBService.getEmployeesInGivenStartRange(date);
 		return employeesInGivenRange;
 	}
+
+	public double getSumBasedOnGender(char gender) {
+		double sumOfSalaries=employeePayrollDBService.getSumBasedOnGender(gender);
+		return sumOfSalaries;
+	}
 }

@@ -95,9 +95,8 @@ public class EmployeePayrollDBService {
 	}
 
 	public List<EmployeePayrollData> getEmployeesInGivenStartRange(String date) throws SQLException {
-		String sql = String.format(
-				"select * from employee where start_date between cast('%s' as date) and date(now());",
-				date);
+		String sql = String
+				.format("select * from employee where start_date between cast('%s' as date) and date(now());", date);
 		List<EmployeePayrollData> listOfEmployees = new ArrayList<>();
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
@@ -117,6 +116,22 @@ public class EmployeePayrollDBService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public double getSumBasedOnGender(char gender) {
+		String sql = String.format("select sum(phone) as total,gender from employee where gender='%c' group by gender;",
+				gender);
+		double sum = 0.0;
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			if (result.next()) {
+				sum = result.getDouble("total");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return sum;
 	}
 
 }
