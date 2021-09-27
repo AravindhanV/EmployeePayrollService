@@ -85,4 +85,9 @@ public class EmployeePayrollService {
 		List<EmployeePayrollData> employeePayrollList = employeePayrollDBService.getEmployeePayrollData(id);
 		return this.employeePayrollList.get(0).equals(getEmployeePayrollData(id));
 	}
+
+	public List<EmployeePayrollData> getEmployeesInGivenStartDateRange(String date) throws SQLException {
+		List<EmployeePayrollData> employeesInGivenRange=employeePayrollDBService.getEmployeesInGivenStartRange(date);
+		return employeesInGivenRange;
+	}
 }
