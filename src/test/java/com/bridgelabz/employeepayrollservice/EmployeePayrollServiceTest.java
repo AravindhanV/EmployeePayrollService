@@ -54,4 +54,12 @@ public class EmployeePayrollServiceTest {
 		Assert.assertEquals(1, listOfEmployeesInDateRange.size());
 	}
 	
+	@Test
+	public void givenEmployeePayrollInDB_shouldReturnSumOfSalaryOfMaleEmployees() throws SQLException{
+		EmployeePayrollService employeePayrollService= new EmployeePayrollService();
+		char gender='M';
+		double sumOfSalary=employeePayrollService.getSumOfSalaryBasedOnGender(gender);
+		Assert.assertEquals(123456789, sumOfSalary);
+	}
+	
 }
