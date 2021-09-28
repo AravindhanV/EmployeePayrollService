@@ -107,8 +107,8 @@ public class EmployeePayrollService {
 		return sumOfSalaries;
 	}
 
-	public int addEmployee(String name,  LocalDate startDate, String gender) {
-		EmployeePayrollData data = employeePayrollDBService.addEmployeeToPayroll(name,startDate,gender);
+	public int addEmployee(String name,  LocalDate startDate, String gender,double salary) {
+		EmployeePayrollData data = employeePayrollDBService.addEmployeeToPayroll(name,startDate,gender,salary);
 		employeePayrollList.add(data);
 		return data.getId();
 	}

@@ -135,12 +135,18 @@ public class EmployeePayrollDBService {
 		return sum;
 	}
 
-	public EmployeePayrollData addEmployeeToPayroll(String name, LocalDate startDate, String gender) {
+	public EmployeePayrollData addEmployeeToPayroll(String name, LocalDate startDate, String gender, double salary) {
 		int employeeId = -1;
 		EmployeePayrollData employeePayrollData= null;
+		Connection connection = null;
+		try {
+		connection = this.getConnection();
+		connection.setAutoCommit(false);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
 		String sql = String.format("insert into employee (name,gender,start_date) values ('%s','%s','%s')",name,gender,Date.valueOf(startDate));
-		try(Connection connection = this.getConnection()) {
-			Statement statement = connection.createStatement();
+		try(Statement statement = connection.createStatement();) {
 			int rowAffected = statement.executeUpdate(sql,statement.RETURN_GENERATED_KEYS);
 			if(rowAffected == 1) {
 				ResultSet resultSet = statement.getGeneratedKeys();
@@ -149,6 +155,37 @@ public class EmployeePayrollDBService {
 			employeePayrollData = new EmployeePayrollData(employeeId,name,startDate);
 		} catch(SQLException e) {
 			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		String sql2 = String.format("insert into payroll (basic_pay,deductions,taxable_income,tax,net_pay,emp_id) values (%.2f,%.2f,%.2f,%.2f,%.2f,%d)",salary,0.2*salary,0.8*salary,0.08*salary,0.92*salary,employeeId);
+		try(Statement statement = connection.createStatement();) {
+			int rowAffected = statement.executeUpdate(sql2,statement.RETURN_GENERATED_KEYS);
+		} catch(SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		try {
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		return employeePayrollData;
