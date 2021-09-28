@@ -1,6 +1,7 @@
 package com.bridgelabz.employeepayrollservice;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -132,6 +133,25 @@ public class EmployeePayrollDBService {
 			e.printStackTrace();
 		}
 		return sum;
+	}
+
+	public EmployeePayrollData addEmployeeToPayroll(String name, LocalDate startDate, String gender) {
+		int employeeId = -1;
+		EmployeePayrollData employeePayrollData= null;
+		String sql = String.format("insert into employee (name,gender,start_date) values ('%s','%s','%s')",name,gender,Date.valueOf(startDate));
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			int rowAffected = statement.executeUpdate(sql,statement.RETURN_GENERATED_KEYS);
+			if(rowAffected == 1) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if(resultSet.next()) employeeId = resultSet.getInt(1);
+			}
+			employeePayrollData = new EmployeePayrollData(employeeId,name,startDate);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return employeePayrollData;
 	}
 
 }

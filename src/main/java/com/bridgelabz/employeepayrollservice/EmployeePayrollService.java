@@ -93,7 +93,8 @@ public class EmployeePayrollService {
 
 	public boolean checkEmployeePayrollInSyncWithDB(int id) {
 		List<EmployeePayrollData> employeePayrollList = employeePayrollDBService.getEmployeePayrollData(id);
-		return this.employeePayrollList.get(0).equals(getEmployeePayrollData(id));
+		System.out.println(employeePayrollList);
+		return employeePayrollList.get(0).equals(getEmployeePayrollData(id));
 	}
 
 	public List<EmployeePayrollData> getEmployeesInGivenStartDateRange(String date) throws SQLException {
@@ -106,8 +107,9 @@ public class EmployeePayrollService {
 		return sumOfSalaries;
 	}
 
-	public void addEmployee(String string, int i, LocalDate now, String string2) {
-		// TODO Auto-generated method stub
-		
+	public int addEmployee(String name,  LocalDate startDate, String gender) {
+		EmployeePayrollData data = employeePayrollDBService.addEmployeeToPayroll(name,startDate,gender);
+		employeePayrollList.add(data);
+		return data.getId();
 	}
 }
