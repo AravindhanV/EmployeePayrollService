@@ -36,7 +36,7 @@ public class EmployeePayrollDBService {
 		return connection;
 	}
 
-	public List<EmployeePayrollData> readData() throws SQLException {
+	public List<EmployeePayrollData> readData() {
 		String sql = "select * from employee";
 		List<EmployeePayrollData> employeePayrollList = new ArrayList<>();
 		try (Connection connection = this.getConnection()) {

@@ -15,7 +15,7 @@ public class EmployeePayrollServiceTest {
 	@Test
 	public void given3EmployeesWhenWrittenToFileShouldMatchEmployeeEntries() {
 		EmployeePayrollData[] arrayOfEmps = {
-				new EmployeePayrollData(1, "Jeff Bezos"),
+				new EmployeePayrollData(1, "Jeff Bezos"),	
 				new EmployeePayrollData(2, "Bill Gates"),
 				new EmployeePayrollData(3, "Mark Zuckerberg")
 		};
@@ -62,4 +62,9 @@ public class EmployeePayrollServiceTest {
 		Assert.assertEquals(123456789, sumOfSalary,0.0);
 	}
 	
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+	}
 }
