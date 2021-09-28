@@ -1,6 +1,7 @@
 package com.bridgelabz.employeepayrollservice;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -66,5 +67,8 @@ public class EmployeePayrollServiceTest {
 	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		employeePayrollService.addEmployee("Mark",50000,LocalDate.now(),"M");
+		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB(2);
+		Assert.assertTrue(result);
 	}
 }

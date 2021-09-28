@@ -4,6 +4,7 @@
 package com.bridgelabz.employeepayrollservice;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -103,5 +104,10 @@ public class EmployeePayrollService {
 	public double getSumBasedOnGender(char gender) {
 		double sumOfSalaries=employeePayrollDBService.getSumBasedOnGender(gender);
 		return sumOfSalaries;
+	}
+
+	public void addEmployee(String string, int i, LocalDate now, String string2) {
+		// TODO Auto-generated method stub
+		
 	}
 }
