@@ -6,6 +6,7 @@ public class EmployeePayrollData {
 	private int id;
 	private String name;
 	private LocalDate date;
+	private boolean isActive;
 	
 	public EmployeePayrollData(int id, String name) {
 		this.id = id;
@@ -16,6 +17,13 @@ public class EmployeePayrollData {
 		this.id = id;
 		this.name = name;
 		this.date = startDate;
+	}
+	
+	public EmployeePayrollData(int id, String name, LocalDate startDate, boolean isActive) {
+		this.id = id;
+		this.name = name;
+		this.date = startDate;
+		this.isActive = isActive;
 	}
 	
 	public LocalDate getDate() {
@@ -36,6 +44,14 @@ public class EmployeePayrollData {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public boolean getActive() {
+		return isActive;
+	}
+	
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	public String getName() {

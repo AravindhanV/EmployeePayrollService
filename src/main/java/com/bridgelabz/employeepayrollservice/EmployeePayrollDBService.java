@@ -191,4 +191,15 @@ public class EmployeePayrollDBService {
 		return employeePayrollData;
 	}
 
+	public int removeEmployee(int id) {
+		EmployeePayrollData employeePayrollData= null;
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			return statement.executeUpdate("update employee set isActive=false where id="+id);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

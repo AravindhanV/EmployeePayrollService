@@ -112,4 +112,13 @@ public class EmployeePayrollService {
 		employeePayrollList.add(data);
 		return data.getId();
 	}
+
+	public void removeEmployee(int id) {
+		int result = employeePayrollDBService.removeEmployee(id);
+		if(result==0) {
+			return;
+		}
+		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(id);
+		if(employeePayrollData != null) employeePayrollData.setActive(false);
+	}
 }
