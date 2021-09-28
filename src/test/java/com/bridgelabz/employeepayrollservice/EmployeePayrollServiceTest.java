@@ -68,7 +68,16 @@ public class EmployeePayrollServiceTest {
 		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
 		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
 		int id = employeePayrollService.addEmployee("Mark",LocalDate.now(),"M",50000);
-		System.out.println("ID in test = "+id);
+		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB(id);
+		Assert.assertTrue(result);
+	}
+	
+	@Test
+	public void givenEmployee_WhenRemoved_ShouldSyncWithDBAndSetInactive() {
+		int id = 17;
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		employeePayrollService.removeEmployee(id);
 		boolean result = employeePayrollService.checkEmployeePayrollInSyncWithDB(id);
 		Assert.assertTrue(result);
 	}
